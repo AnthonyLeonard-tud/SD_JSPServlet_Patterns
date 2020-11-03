@@ -79,7 +79,19 @@ public class UserController extends HttpServlet {
 				return;
 			}
 			
+			// process other actions...
+			String action = request.getParameter("action");
 			
+			CommandFactory factory = CommandFactory.getInstance();
+			Command command = null;
+			
+			try {
+				command = factory.createCommand(action);
+				forwardToJsp = command.execute(request, response);		
+			} catch (Exception e) {
+				e.printStackTrace();
+				forwardToJsp = "/errorPage.jsp";		
+			}
 		}			
 		
 		
@@ -91,6 +103,8 @@ public class UserController extends HttpServlet {
 		//We just create a Command object to handle the specific request...
 		//NOTE: this code is to illustrate the Controller/Command strategy
 		//      we will make this code more maintainable and flexible...
+		
+		/*
 		if ( request.getParameter("action").equalsIgnoreCase("list") ) {
 
 			//The user wants a list if all users...
@@ -104,7 +118,10 @@ public class UserController extends HttpServlet {
 			CommandFactory factory = CommandFactory.getInstance();
 			Command command = factory.createCommand("ViewUserProfile");
 			forwardToJsp = command.execute(request, response);
-		}		
+		}
+		*/
+				
+		
 
 		forwardToPage(request, response, forwardToJsp);
 	}
