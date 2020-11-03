@@ -22,7 +22,7 @@
 	<br/><br/>
 	
 	<form action="UserController" method="post">
-	     <input type="hidden" name="action" value="list" />
+	     <input type="hidden" name="action" value="ListUsers" />
          <input type="submit" value="List Users" />
     </form>
     
@@ -32,7 +32,7 @@
          <input type="submit" value="View My Profile" />
     </form>      
 	-->
-    <a href="UserController?action=viewProfile">View My Profile</a>
+    <a href="UserController?action=ViewUserProfile">View My Profile</a>
         
 </body>
 
