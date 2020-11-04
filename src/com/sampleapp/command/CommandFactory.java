@@ -37,6 +37,9 @@ public class CommandFactory {
     	if (commandStr.equals("ViewUserProfile")) {
     		command = new ViewUserProfileCommand();
     	}
+    	if (commandStr.equals("EditUserProfile")) {
+    		command = new EditUserProfileCommand();
+    	}
 
     	//Return the instantiated Command object to the calling code...
     	return command;		// may be null
