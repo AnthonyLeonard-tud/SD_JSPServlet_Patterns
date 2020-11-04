@@ -32,7 +32,7 @@
          <input type="submit" value="View My Profile" />
     </form>      
 	-->
-    <a href="UserController?action=ViewUserProfile">View My Profile</a>
+    <a href="UserController?action=ViewUserProfile">View / Edit My Profile</a>
         
 </body>
 
