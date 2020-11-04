@@ -17,22 +17,27 @@
 <body>
 
 <c:set var="user" value="${sessionScope.user}"/>
-<b>View Profile for: <c:out value="${user.username}"/> </b>
-
+<b>View Profile for: <c:out value="${user.username}"/></b>
+<form method="post" action="UserController">
 <table>
 	<tr>
-	  <td>ID:</td><td><c:out value="${user.id}" /></td>
+	  <td>ID:</td><td><input type="hidden" name="id" value="<c:out value="${user.id}" />"></input><c:out value="${user.id}" /></td>
 	</tr>
 	<tr>  
-	  <td>First Name:</td><td><c:out value="${user.firstName}" /></td>
+	  <td>First Name:</td><td><input type="text" name="firstName" value="<c:out value="${user.firstName}" />"></input></td>
 	</tr>
 	<tr>
-	  <td>Last Name:</td><td><c:out value="${user.lastName}" /></td>
+	  <td>Last Name:</td><td><input type="text" name="lastName" value="<c:out value="${user.lastName}" />"></input></td>
 	</tr>
 	<tr>
-   	  <td>Password:</td><td><c:out value="${user.password}" /></td>
+	  <td>Last Name:</td><td><input type="text" name="username" value="<c:out value="${user.username}" />"></input></td>
+	</tr>
+	<tr>
+   	  <td>Password:</td><td><input type="text" name="password" value="<c:out value="${user.password}" />"></input></td>
    	</tr>	
 </table>
-
+<input type="hidden" name="action" value="EditUserProfile" />
+<input type="submit" value="Change My Profile" />
+</form>
 </body>
 </html>

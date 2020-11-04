@@ -1,6 +1,5 @@
 package com.sampleapp.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.sampleapp.business.User;
@@ -38,5 +37,33 @@ public class UserService {
 		
 	}
 	
+	public User findUserById(int id){
+		
+		User u = null;
+		try {
+			UserDao dao = new UserDao();
+			u = dao.findUserByUserId(id);
+		} 
+		catch (DaoException e) {
+			e.printStackTrace();
+		}
+		return u;
+		
+	}
+	
+	public User updateUserBasedOnUserId(int id, String firstName, String lastName,  String username, String password){
+		
+		User u = null;
+		try {
+			UserDao dao = new UserDao();
+			dao.updateUserBasedOnUserId(id, firstName, lastName, username, password);
+			u = dao.findUserByUserId(id);
+		} 
+		catch (DaoException e) {
+			e.printStackTrace();
+		}
+		return u;
+		
+	}
 	
 }

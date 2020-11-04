@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import com.sampleapp.business.User;
 import com.sampleapp.exceptions.DaoException;
@@ -104,5 +103,79 @@ public class UserDao extends Dao {
         }
         return u;     // p may be null 
     }
+    
+    public User findUserByUserId(int id) throws DaoException {
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        User u = null;
+        try {
+            con = this.getConnection();
+            
+            String query = "SELECT * FROM USER WHERE ID = ?";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            
+            rs = ps.executeQuery();
+            if (rs.next()) {
+            	int userId = rs.getInt("ID");
+                String username = rs.getString("USERNAME");
+                String password = rs.getString("PASSWORD");
+                String lastname = rs.getString("LAST_NAME");
+                String firstname = rs.getString("FIRST_NAME");
+                u = new User(userId, firstname, lastname, username, password);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("findUserByUsernamePassword " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("findUserByUsernamePassword" + e.getMessage());
+            }
+        }
+        return u;     // p may be null 
+    }
+
+	public void updateUserBasedOnUserId(int id, String firstName, String lastName, String username, String password) throws DaoException {
+		Connection con = null;
+        PreparedStatement ps = null;
+        try {
+            con = this.getConnection();
+            
+            String query = "UPDATE USER SET FIRST_NAME =?, LAST_NAME =?, USERNAME = ?, PASSWORD = ? WHERE ID = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1, firstName);
+            ps.setString(2, lastName);
+            ps.setString(3, username);
+            ps.setString(4, password);
+            ps.setInt(5, id);
+            
+            ps.executeUpdate();
+            
+        } catch (SQLException e) {
+            throw new DaoException("updateUserBasedOnUserId " + e.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("updateUserBasedOnUserId" + e.getMessage());
+            }
+        }
+	}
    
 }

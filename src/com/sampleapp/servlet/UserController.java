@@ -1,6 +1,7 @@
 package com.sampleapp.servlet;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,10 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sampleapp.business.User;
 import com.sampleapp.command.Command;
 import com.sampleapp.command.CommandFactory;
-import com.sampleapp.service.UserService;
+import com.sampleapp.exceptions.CommandCreationExeption;
 
 /**
  * Servlet implementation class UserController
@@ -32,6 +32,7 @@ public class UserController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest (request, response);
 	}
@@ -40,6 +41,7 @@ public class UserController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}	
@@ -62,7 +64,31 @@ public class UserController extends HttpServlet {
 
 			//The user wants to log in...
 			CommandFactory factory = CommandFactory.getInstance();
-			Command command = factory.createCommand("LoginUser");
+			Command command = null;
+			try {
+				command = factory.createCommand("LoginUser");
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CommandCreationExeption e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			forwardToJsp = command.execute(request, response);
 
 		}
