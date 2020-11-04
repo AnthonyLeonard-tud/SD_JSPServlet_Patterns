@@ -12,7 +12,12 @@ import java.sql.SQLException;
  */
 public class DaoException extends SQLException {
 
-    public DaoException() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public DaoException() {
     }
 
     public DaoException(String aMessage) {

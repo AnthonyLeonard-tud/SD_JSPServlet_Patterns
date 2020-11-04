@@ -24,7 +24,7 @@
 
 <%
 List<User> users;
-users = (List)(request.getSession().getAttribute("users"));
+users = (List<User>)(request.getSession().getAttribute("users"));
 
 if (users != null){
 
