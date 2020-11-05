@@ -1,8 +1,6 @@
 package com.sampleapp.servlet;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import com.sampleapp.command.Command;
 import com.sampleapp.command.CommandFactory;
-import com.sampleapp.exceptions.CommandCreationExeption;
 
 /**
  * Servlet implementation class UserController
