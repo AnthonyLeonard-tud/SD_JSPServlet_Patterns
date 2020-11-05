@@ -53,47 +53,32 @@ public class UserController extends HttpServlet {
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
 		String forwardToJsp = null;		
-		
-		
+				
 		/*
 		 * NOTE: THIS SECTION OF THE CODE DEALS WITH CHECKING LOGIN DETAILS...
-		 */
+		 */		
+		// process other actions...
+		String action = request.getParameter("action");
 		
 		//Check if this is a login request and process...
-		if ( request.getParameter("action").equalsIgnoreCase("login") ){
+		if ( action.equalsIgnoreCase("LoginUser") ){
 
-			//The user wants to log in...
+			// special case the user wants to log in...
 			CommandFactory factory = CommandFactory.getInstance();
 			Command command = null;
 			try {
-				command = factory.createCommand("LoginUser");
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+				command = factory.createCommand(action);
+				forwardToJsp = command.execute(request, response);		
+			} catch (Exception e) {
 				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (CommandCreationExeption e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				forwardToJsp = "/errorPage.jsp";		
 			}
 			forwardToJsp = command.execute(request, response);
 
 		}
-		else{	//If not a login request then need to check that user is  
-				//logged in before processing ANY other type of requests.
+		else{	
+			//If not a login request then need to check that user is  
+			//logged in before processing ANY other type of requests.
 			
 			//Check to see if the session id coming from the client matches the id stored at login...
 			HttpSession session = request.getSession();
@@ -104,10 +89,7 @@ public class UserController extends HttpServlet {
 				forwardToPage(request, response, forwardToJsp);
 				return;
 			}
-			
-			// process other actions...
-			String action = request.getParameter("action");
-			
+						
 			CommandFactory factory = CommandFactory.getInstance();
 			Command command = null;
 			
@@ -119,35 +101,6 @@ public class UserController extends HttpServlet {
 				forwardToJsp = "/errorPage.jsp";		
 			}
 		}			
-		
-		
-		/*
-		 * NOTE: THIS SECTION OF THE CODE DEALS WITH PROCESSING ALL REQUESTS EXCEPT LOGGING IN...
-		 */
-		
-		//Now we can process whatever the request is...
-		//We just create a Command object to handle the specific request...
-		//NOTE: this code is to illustrate the Controller/Command strategy
-		//      we will make this code more maintainable and flexible...
-		
-		/*
-		if ( request.getParameter("action").equalsIgnoreCase("list") ) {
-
-			//The user wants a list if all users...
-			CommandFactory factory = CommandFactory.getInstance();
-			Command command = factory.createCommand("ListUsers");
-			forwardToJsp = command.execute(request, response);
-		}		
-		else if ( request.getParameter("action").equalsIgnoreCase("viewProfile") ){
-
-			//The user wants to view their profile...
-			CommandFactory factory = CommandFactory.getInstance();
-			Command command = factory.createCommand("ViewUserProfile");
-			forwardToJsp = command.execute(request, response);
-		}
-		*/
-				
-		
 
 		forwardToPage(request, response, forwardToJsp);
 	}
