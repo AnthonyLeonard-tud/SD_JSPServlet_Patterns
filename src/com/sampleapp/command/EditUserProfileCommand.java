@@ -1,5 +1,8 @@
 package com.sampleapp.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,10 +35,14 @@ public class EditUserProfileCommand implements Command {
 			HttpSession session = request.getSession();
 			String clientSessionId = session.getId();
 			session.setAttribute("loggedSessionId", clientSessionId);
-
 			session.setAttribute("user", ammendedLoggingIn);
+			
+			List<User> users = new ArrayList<User>();
+			users = userService.getAllUsers();
+			
+			session.setAttribute("users", users);
 
-			forwardToJsp = "/UserController?action=ListUsers";				
+			forwardToJsp = "/listUsers.jsp";				
 		}
 		else{
 			forwardToJsp = "/errorPage.jsp";	
